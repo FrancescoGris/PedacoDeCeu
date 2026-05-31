@@ -1,0 +1,195 @@
+/* ===== Cadastro.css ===== */
+
+.cadastro-container {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #F3E9DC;
+  padding: 3rem 2rem;
+}
+
+.cadastro-card {
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 2px 16px rgba(75, 44, 32, 0.1);
+  padding: 3rem 3rem;
+  width: 100%;
+  max-width: 860px;
+}
+
+/* Topo */
+.cadastro-topo {
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.cadastro-topo h1 {
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #4b2c20;
+  margin-bottom: 0.4rem;
+}
+
+.cadastro-topo p {
+  color: #9c7b6e;
+  font-size: 0.95rem;
+}
+
+/* Grid de dois campos por linha */
+.cadastro-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.4rem 2rem;
+}
+
+/* Campos que ocupam a linha inteira */
+.campo-full {
+  grid-column: 1 / -1;
+}
+
+/* Campos */
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+}
+
+.campo-grupo label {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #5E3023;
+  margin-bottom: 0.4rem;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.campo-grupo input {
+  padding: 0.8rem 1rem;
+  border: 1.5px solid #d9c4b8;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  color: #3a1f16;
+  background: #fdf9f6;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.campo-grupo input::placeholder {
+  color: #c0a89a;
+}
+
+.campo-grupo input:focus {
+  border-color: #5E3023;
+  box-shadow: 0 0 0 3px rgba(94, 48, 35, 0.08);
+  background: #fff;
+}
+
+/* Estado de erro */
+.campo-grupo.campo-erro input {
+  border-color: #b94040;
+}
+
+.campo-grupo.campo-erro input:focus {
+  box-shadow: 0 0 0 3px rgba(185, 64, 64, 0.1);
+}
+
+.erro-msg {
+  font-size: 0.78rem;
+  color: #b94040;
+  margin-top: 0.3rem;
+}
+
+/* Botão — ocupa a linha toda */
+.btn-cadastrar {
+  grid-column: 1 / -1;
+  width: 100%;
+  padding: 0.9rem;
+  margin-top: 0.4rem;
+  background-color: #4b2c20;
+  color: #F3E9DC;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  letter-spacing: 0.04em;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.btn-cadastrar:hover {
+  background-color: #5E3023;
+}
+
+.btn-cadastrar:active {
+  transform: scale(0.98);
+}
+
+/* Link para login */
+.cadastro-login-link {
+  grid-column: 1 / -1;
+  text-align: center;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #9c7b6e;
+}
+
+.cadastro-login-link a {
+  color: #5E3023;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.cadastro-login-link a:hover {
+  color: #d2b48c;
+}
+
+/* Tela de sucesso */
+.cadastro-sucesso {
+  min-height: calc(100vh - 70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.2rem;
+  background-color: #F3E9DC;
+}
+
+.sucesso-icone {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background-color: #4b2c20;
+  color: #F3E9DC;
+  font-size: 1.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cadastro-sucesso h2 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4b2c20;
+}
+
+.cadastro-sucesso p {
+  color: #9c7b6e;
+  font-size: 0.95rem;
+}
+
+/* Responsivo — volta para 1 coluna em telas pequenas */
+@media (max-width: 600px) {
+  .cadastro-form {
+    grid-template-columns: 1fr;
+  }
+
+  .campo-full,
+  .btn-cadastrar,
+  .cadastro-login-link {
+    grid-column: 1;
+  }
+
+  .cadastro-card {
+    padding: 2rem 1.5rem;
+  }
+}

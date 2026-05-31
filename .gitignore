@@ -1,0 +1,8 @@
+PedacodeCeu-Back/node_modules
+PedacodeCeu-Back/dist
+PedacodeCeu-Back/.env
+PedacodeCeu-Back/coverage
+
+PedacodeCeu-Front/node_modules
+PedacodeCeu-Front/build
+PedacodeCeu-Front/.env
