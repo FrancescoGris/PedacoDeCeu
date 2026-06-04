@@ -6,6 +6,7 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
   const [token, setToken] = useState(null);
+  const [carregando, setCarregando] = useState(true);
 
   useEffect(() => {
     const tokenSalvo = localStorage.getItem("token");
@@ -14,6 +15,7 @@ export function AuthProvider({ children }) {
       setToken(tokenSalvo);
       setUsuario(JSON.parse(usuarioSalvo));
     }
+    setCarregando(false);
   }, []);
 
   async function login(email, senha) {
@@ -47,7 +49,7 @@ export function AuthProvider({ children }) {
   const isAdmin = usuario?.role === "admin";
 
   return (
-    <AuthContext.Provider value={{ usuario, token, isAdmin, login, loginAdmin, logout, atualizarUsuario }}>
+    <AuthContext.Provider value={{ usuario, token, isAdmin, carregando, login, loginAdmin, logout, atualizarUsuario }}>
       {children}
     </AuthContext.Provider>
   );

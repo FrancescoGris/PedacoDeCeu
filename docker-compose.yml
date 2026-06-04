@@ -24,6 +24,8 @@ services:
       dockerfile: Dockerfile
     container_name: pedaco-back
     restart: always
+    env_file:
+      - ./PedacodeCeu-Back/.env
     environment:
       DB_HOST: database
       DB_PORT: 3306
