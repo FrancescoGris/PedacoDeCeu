@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { listarProdutos, deletarProduto } from '../services/api';
 import Paginacao from '../componentes/Paginacao';
 import MensagemErro from '../componentes/MensagemErro';
@@ -10,10 +10,15 @@ export default function Produtos() {
   const [totalPaginas, setTotalPaginas] = useState(1);
   const [erro, setErro] = useState('');
   const [carregando, setCarregando] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
-    buscarProdutos();
-  }, [pagina]);
+  buscarProdutos();
+}, [pagina]);
+
+useEffect(() => {
+  buscarProdutos();
+}, [location.key]);
 
   async function buscarProdutos() {
     setCarregando(true);

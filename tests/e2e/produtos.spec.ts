@@ -80,6 +80,8 @@ test('editar produto altera o nome e retorna para a lista', async ({ page }) => 
 
   await expect(page).toHaveURL(/\/admin\/produtos\/editar\//);
 
+  await expect(page.locator('#nome')).not.toHaveValue('');
+
   const nomeAtualizado = `Produto Editado ${Date.now()}`;
   await page.fill('#nome', nomeAtualizado);
 
