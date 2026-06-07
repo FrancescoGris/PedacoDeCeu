@@ -72,6 +72,8 @@ test('editar categoria altera o nome e retorna para a lista', async ({ page }) =
 
   await expect(page).toHaveURL(/\/admin\/categorias\/editar\//);
 
+  await expect(page.locator('#nome')).not.toHaveValue('');
+
   const nomeAtualizado = `Categoria Editada ${Date.now()}`;
   await page.fill('#nome', nomeAtualizado);
   await page.click('button:has-text("Salvar alterações")');
