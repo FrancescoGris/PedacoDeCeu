@@ -16,11 +16,10 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "mysql", "-u", "my_user", "-puser_password", "-e", "SELECT 1"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
       interval: 5s
-      timeout: 10s
+      timeout: 5s
       retries: 10
-      start_period: 30s
 
   backend:
     build:
