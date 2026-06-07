@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {},
+  "scripts": {
+    "prepare": "husky"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/FrancescoGris/PedacoDeCeu.git"
@@ -17,6 +19,8 @@
   },
   "homepage": "https://github.com/FrancescoGris/PedacoDeCeu#readme",
   "devDependencies": {
+    "@commitlint/cli": "^21.0.2",
+    "@commitlint/config-conventional": "^21.0.2",
     "@playwright/test": "^1.60.0",
     "@types/node": "^25.9.1"
   }
