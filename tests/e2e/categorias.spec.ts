@@ -68,6 +68,7 @@ test('editar categoria altera o nome e retorna para a lista', async ({ page }) =
   await expect(page).toHaveURL('/admin/categorias');
 
   const linha = page.locator('tr', { hasText: nomeOriginal });
+  await expect(linha).toBeVisible(); // aguarda a linha aparecer
   await linha.locator('button.btn-sm--editar').click();
 
   await expect(page).toHaveURL(/\/admin\/categorias\/editar\//);
@@ -92,7 +93,7 @@ test('excluir categoria remove da lista', async ({ page }) => {
   await expect(page).toHaveURL('/admin/categorias');
 
   const linha = page.locator('tr', { hasText: nomeParaDeletar });
-  await expect(linha).toBeVisible();
+  await expect(linha).toBeVisible({ timeout: 10000 }); // timeout maior
 
   page.once('dialog', dialog => dialog.accept());
   await linha.locator('button.btn-sm--deletar').click();

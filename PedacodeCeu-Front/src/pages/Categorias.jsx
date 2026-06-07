@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 import { listarCategorias, deletarCategoria } from '../services/api';
 import Paginacao from '../componentes/Paginacao';
 import MensagemErro from '../componentes/MensagemErro';
 
 export default function Categorias() {
+  const location = useLocation();
   const [categorias, setCategorias] = useState([]);
   const [pagina, setPagina] = useState(1);
   const [totalPaginas, setTotalPaginas] = useState(1);
@@ -12,8 +14,12 @@ export default function Categorias() {
   const [carregando, setCarregando] = useState(false);
 
   useEffect(() => {
-    buscar();
-  }, [pagina]);
+  buscar();
+}, [pagina]);
+
+useEffect(() => {
+  buscar();
+}, [location.key]);
 
   async function buscar() {
     setCarregando(true);
