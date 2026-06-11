@@ -8,7 +8,7 @@ export default defineConfig({
   reporter: 'list',
 
   use: {
-    baseURL: 'http://localhost:8080',
+    baseURL: 'https://pedacodeceu.local',
     headless: true,
     screenshot: 'only-on-failure',
     video: 'off',
