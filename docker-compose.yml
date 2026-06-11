@@ -4,11 +4,13 @@ services:
     image: mysql:8.0
     container_name: mysql-db
     restart: always
+    env_file:
+      - .env
     environment:
-      MYSQL_ROOT_PASSWORD: root_password
-      MYSQL_DATABASE: pedacodoceu
-      MYSQL_USER: my_user
-      MYSQL_PASSWORD: user_password
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     expose:
       - "3306"
     volumes:
@@ -16,7 +18,7 @@ services:
     networks:
       - app-network
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot_password"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${MYSQL_ROOT_PASSWORD}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -32,9 +34,6 @@ services:
     environment:
       DB_HOST: database
       DB_PORT: 3306
-      DB_NAME: pedacodoceu
-      DB_USER: my_user
-      DB_PASS: user_password
     expose:
       - "3000"
     depends_on:
