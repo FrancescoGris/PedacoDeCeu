@@ -20,6 +20,13 @@ async function tratarResposta(res) {
   return data;
 }
 
+// Monta a URL completa da imagem a partir do nome do arquivo salvo no servidor
+export function urlDaImagem(nomeArquivo) {
+  if (!nomeArquivo) return null;
+  const origem = BASE_URL.replace(/\/api\/?$/, "");
+  return `${origem}/uploads/produtos/${nomeArquivo}`;
+}
+
 export async function loginApi(payload) {
   const res = await fetch(`${BASE_URL}/auth/login`, {
     method: "POST",
@@ -108,18 +115,26 @@ export async function buscarProduto(id) {
   return tratarResposta(res);
 }
 
+// Monta o FormData de produto — dados.arquivoImagem deve ser um File (do input type="file"),
+// ou undefined/null quando não há foto nova pra enviar.
+function montarFormDataProduto(dados) {
+  const form = new FormData();
+  form.append("nome", dados.nome);
+  form.append("descricao", dados.descricao);
+  form.append("preco", String(Number(dados.preco)));
+  form.append("categoriaId", dados.categoriaId);
+  form.append("destaque", String(dados.destaque ?? false));
+  if (dados.ativo !== undefined) form.append("ativo", String(dados.ativo));
+  if (dados.arquivoImagem) form.append("imagem", dados.arquivoImagem);
+  return form;
+}
+
 export async function criarProduto(dados) {
   const res = await fetch(`${BASE_URL}/produtos`, {
     method: "POST",
-    headers: headersAutenticados(),
-    body: JSON.stringify({
-      nome: dados.nome,
-      descricao: dados.descricao,
-      preco: Number(dados.preco),
-      imagem: dados.imagem || null,
-      destaque: dados.destaque ?? false,
-      categoriaId: dados.categoriaId,
-    }),
+    // Sem "Content-Type" aqui: o navegador define o boundary do multipart sozinho.
+    headers: { Authorization: `Bearer ${getToken()}` },
+    body: montarFormDataProduto(dados),
   });
   return tratarResposta(res);
 }
@@ -127,16 +142,8 @@ export async function criarProduto(dados) {
 export async function editarProduto(id, dados) {
   const res = await fetch(`${BASE_URL}/produtos/${id}`, {
     method: "PUT",
-    headers: headersAutenticados(),
-    body: JSON.stringify({
-      nome: dados.nome,
-      descricao: dados.descricao,
-      preco: Number(dados.preco),
-      imagem: dados.imagem || null,
-      destaque: dados.destaque ?? false,
-      ativo: dados.ativo ?? true,
-      categoriaId: dados.categoriaId,
-    }),
+    headers: { Authorization: `Bearer ${getToken()}` },
+    body: montarFormDataProduto(dados),
   });
   return tratarResposta(res);
 }

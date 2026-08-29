@@ -34,8 +34,10 @@ services:
     environment:
       DB_HOST: database
       DB_PORT: 3306
-    expose:
-      - "3000"
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./PedacodeCeu-Back/uploads:/app/uploads
     depends_on:
       database:
         condition: service_healthy

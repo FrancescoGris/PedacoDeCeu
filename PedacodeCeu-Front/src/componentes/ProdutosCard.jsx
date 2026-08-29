@@ -1,6 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useCarrinho } from '../context/CarrinhoContext';
+import { urlDaImagem } from '../services/api';
 import './ProdutosCard.css';
 
 function ProdutoCard({ produto, nomeProduto, precoProduto, descricao, foto }) {
@@ -10,7 +11,8 @@ function ProdutoCard({ produto, nomeProduto, precoProduto, descricao, foto }) {
   const nome = produto ? produto.nome : nomeProduto;
   const preco = produto ? produto.preco : precoProduto;
   const desc = produto ? produto.descricao : descricao;
-  const imagem = produto ? produto.imagem : foto;
+  // produto.imagem agora é só o NOME do arquivo salvo no servidor, não uma URL completa
+  const imagem = produto ? urlDaImagem(produto.imagem) : foto;
   const id = produto ? produto.id : null;
 
   function handleVerMais() {

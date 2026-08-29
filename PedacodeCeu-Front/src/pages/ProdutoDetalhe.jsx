@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { buscarProduto } from '../services/api';
+import { buscarProduto, urlDaImagem } from '../services/api';
 import { useCarrinho } from '../context/CarrinhoContext';
 
 export default function ProdutoDetalhe() {
@@ -38,7 +38,7 @@ export default function ProdutoDetalhe() {
   return (
     <div className="produto-detalhe">
       {produto.imagem && (
-        <img src={produto.imagem} alt={produto.nome} className="produto-detalhe-img" />
+        <img src={urlDaImagem(produto.imagem)} alt={produto.nome} className="produto-detalhe-img" />
       )}
 
       <div className="produto-detalhe-info">

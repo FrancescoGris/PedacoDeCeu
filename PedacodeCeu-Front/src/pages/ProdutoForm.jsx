@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { criarProduto, editarProduto, buscarProduto, listarCategorias } from '../services/api';
+import { criarProduto, editarProduto, buscarProduto, listarCategorias, urlDaImagem } from '../services/api';
 import CampoTexto from '../componentes/CampoTexto';
 import Botao from '../componentes/Botao';
 import MensagemErro from '../componentes/MensagemErro';
@@ -13,7 +13,8 @@ export default function ProdutoForm() {
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [preco, setPreco] = useState('');
-  const [imagem, setImagem] = useState('');
+  const [arquivoImagem, setArquivoImagem] = useState(null); // File novo escolhido agora, se houver
+  const [imagemAtual, setImagemAtual] = useState(null); // nome do arquivo já salvo no servidor (ao editar)
   const [destaque, setDestaque] = useState(false);
   const [ativo, setAtivo] = useState(true);
   const [categoriaId, setCategoriaId] = useState('');
@@ -40,7 +41,7 @@ export default function ProdutoForm() {
       setNome(produto.nome);
       setDescricao(produto.descricao);
       setPreco(String(produto.preco));
-      setImagem(produto.imagem || '');
+      setImagemAtual(produto.imagem || null);
       setDestaque(produto.destaque ?? false);
       setAtivo(produto.ativo ?? true);
       setCategoriaId(produto.categoriaId);
@@ -63,7 +64,7 @@ export default function ProdutoForm() {
     if (!validar()) return;
     setCarregando(true);
     try {
-      const payload = { nome, descricao, preco: Number(preco), imagem, destaque, ativo, categoriaId };
+      const payload = { nome, descricao, preco: Number(preco), arquivoImagem, destaque, ativo, categoriaId };
       if (editando && id) {
         await editarProduto(id, payload);
       } else {
@@ -87,7 +88,30 @@ export default function ProdutoForm() {
         <CampoTexto id="nome" label="Nome" value={nome} onChange={(e) => setNome(e.target.value)} erro={erros.nome} />
         <CampoTexto id="descricao" label="Descrição" value={descricao} onChange={(e) => setDescricao(e.target.value)} erro={erros.descricao} />
         <CampoTexto id="preco" label="Preço (R$)" type="number" value={preco} onChange={(e) => setPreco(e.target.value)} erro={erros.preco} placeholder="0.00" />
-        <CampoTexto id="imagem" label="URL da Imagem (opcional)" value={imagem} onChange={(e) => setImagem(e.target.value)} placeholder="https://..." />
+
+        <div className="campo-grupo">
+          <label className="campo-label" htmlFor="imagem">Foto do produto (opcional)</label>
+          <input
+            id="imagem"
+            type="file"
+            accept="image/png, image/jpeg, image/webp"
+            onChange={(e) => setArquivoImagem(e.target.files[0] || null)}
+          />
+          {imagemAtual && !arquivoImagem && (
+            <img
+              src={urlDaImagem(imagemAtual)}
+              alt="Imagem atual do produto"
+              style={{ width: 80, height: 80, objectFit: 'cover', marginTop: 8, borderRadius: 8 }}
+            />
+          )}
+          {arquivoImagem && (
+            <img
+              src={URL.createObjectURL(arquivoImagem)}
+              alt="Pré-visualização da nova imagem"
+              style={{ width: 80, height: 80, objectFit: 'cover', marginTop: 8, borderRadius: 8 }}
+            />
+          )}
+        </div>
 
         <div className="campo-grupo">
           <label className="campo-label" htmlFor="categoria">Categoria</label>

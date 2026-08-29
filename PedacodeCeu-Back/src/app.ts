@@ -1,16 +1,21 @@
 import express, { Router } from "express";
 import "dotenv/config";
 import cors from "cors";
+import path from "path";
 import authMiddleware, { adminMiddleware } from "./middlewares/auth.middlewares";
 import AuthController from "./controllers/auth.controller";
 import CategoriaController from "./controllers/categoria.controller";
 import ProdutoController from "./controllers/produto.controller";
 import UsuarioController from "./controllers/usuario.controller";
 import PedidoController from "./controllers/pedido.controller";
+import upload from "./config/upload";
 
 const app = express();
 app.use(express.json());
 app.use(cors({ origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:5173", "http://localhost:8080"], credentials: true }));
+
+
+app.use("/uploads", express.static(path.join(__dirname, "..", "uploads")));
 
 const router: Router = Router();
 
@@ -31,9 +36,9 @@ router.put("/categorias/:id", adminMiddleware, CategoriaController.update);
 router.delete("/categorias/:id", adminMiddleware, CategoriaController.remove);
 
 router.get("/produtos", authMiddleware, ProdutoController.findAll);
-router.post("/produtos", adminMiddleware, ProdutoController.create);
+router.post("/produtos", adminMiddleware, upload.single("imagem"), ProdutoController.create);
 router.get("/produtos/:id", authMiddleware, ProdutoController.getById);
-router.put("/produtos/:id", adminMiddleware, ProdutoController.update);
+router.put("/produtos/:id", adminMiddleware, upload.single("imagem"), ProdutoController.update);
 router.delete("/produtos/:id", adminMiddleware, ProdutoController.remove);
 
 router.get("/pedidos", authMiddleware, PedidoController.findAll);
